@@ -1,0 +1,14 @@
+Package: BFunk
+Type: Package
+Title: Ben's functions 
+Version: 0.1.0
+Authors@R: person("Benjamin", "Renard", email = "benjamin.renard@inrae.fr",
+    role = c("aut", "cre"))
+Description: Miscellaneous tools, functions, utilities, etc. for reading, writing, creating, computing, plotting, and other various usages.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    ggplot2,
+    maps
+RoxygenNote: 7.1.0
