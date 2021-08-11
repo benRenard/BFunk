@@ -15,7 +15,7 @@ getAnnualVariables(
 )
 }
 \arguments{
-\item{x}{data frame, should contain at least two columns named 'month' and 'value'.
+\item{x}{data frame, should contain at least three columns named 'month', 'year' and 'value'.
 If x has a column named 'day', it is interpreted as a daily series.}
 
 \item{variables}{character vector, requested variables.

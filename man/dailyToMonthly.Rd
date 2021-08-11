@@ -7,7 +7,7 @@
 dailyToMonthly(x, stat = mean, ...)
 }
 \arguments{
-\item{x}{data frame, should contain at least three columns named 'day', 'month' and 'value'.}
+\item{x}{data frame, should contain at least four columns named 'day', 'month', 'year' and 'value'.}
 
 \item{stat}{function, statistics to be applied.}
 

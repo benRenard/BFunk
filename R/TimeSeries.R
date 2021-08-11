@@ -31,7 +31,7 @@ getMonthlyStat <- function(x,stat=mean,...){
 #'
 #' Transform a daily time series into a monthly one.
 #'
-#' @param x data frame, should contain at least three columns named 'day', 'month' and 'value'.
+#' @param x data frame, should contain at least four columns named 'day', 'month', 'year' and 'value'.
 #' @param stat function, statistics to be applied.
 #' @param ... other arguments passed to function stat.
 #' @return A data frame with the following columns:
@@ -71,7 +71,7 @@ dailyToMonthly <- function(x,stat=mean,...){
 #' Extraction of annual variables (mean, extrema, sd, quantiles, durations...)
 #' from a daily or monthly time series.
 #'
-#' @param x data frame, should contain at least two columns named 'month' and 'value'.
+#' @param x data frame, should contain at least three columns named 'month', 'year' and 'value'.
 #'    If x has a column named 'day', it is interpreted as a daily series.
 #' @param hydroYear integer vector, hydro-year definition.
 #' @param variables character vector, requested variables.
