@@ -9,6 +9,8 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
+    stats,
+    utils,
     ggplot2,
     maps
 RoxygenNote: 7.1.0
