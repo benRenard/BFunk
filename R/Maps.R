@@ -5,7 +5,7 @@
 #'
 #' Get bounding box from a geographical description
 #'
-#' @param region character, bounding box as a geographical description.
+#' @param bbox character, bounding box as a geographical description.
 #'     Available:
 #' \enumerate{
 #'   \item 'All','World' (Antartica removed for the latter)

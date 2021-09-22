@@ -73,7 +73,7 @@ dailyToMonthly <- function(x,stat=mean,...){
 #'
 #' @param x data frame, should contain at least three columns named 'month', 'year' and 'value'.
 #'    If x has a column named 'day', it is interpreted as a daily series.
-#' @param hydroYear integer vector, hydro-year definition.
+#' @param hydroyear integer vector, hydro-year definition.
 #' @param variables character vector, requested variables.
 #'   Available: 'mean','max','min','total','sd'.
 #' @param probs numeric vector, probabilities (non-exceedance) for requested quantiles.
@@ -135,7 +135,7 @@ getAnnualVariables <- function(x,hydroyear=1:12,
         for(j in 1:length(variables)){
           val=switch(variables[j],
                      mean=mean(z),max=max(z),min=min(z),
-                     total=sum(z),sd=sd(z),
+                     total=sum(z),sd=stats::sd(z),
                      NA)
           out=rbind(out,data.frame(year=year,variable=variables[j],value=val))
         }
@@ -143,7 +143,7 @@ getAnnualVariables <- function(x,hydroyear=1:12,
       # Quantiles
       if(length(probs)>0 & !is.null(probs)){
         for(j in 1:length(probs)){
-          val=as.numeric(quantile(z,probs[j]))
+          val=as.numeric(stats::quantile(z,probs[j]))
           out=rbind(out,data.frame(year=year,variable=paste0('q',probs[j]),value=val))
         }
       }

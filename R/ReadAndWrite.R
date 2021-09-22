@@ -20,7 +20,7 @@
 #' @export
 read_OzRefNetwork_Q_D <- function(f){
   # f: datafile
-  X <- read.table(f,skip=16,header=F,sep=',')
+  X <- utils::read.table(f,skip=16,header=F,sep=',')
   DF <- data.frame(year=as.numeric(substr(X[,1],1,4)),
                    month=as.numeric(substr(X[,1],6,7)),
                    day=as.numeric(substr(X[,1],9,10)),
@@ -47,7 +47,7 @@ read_OzRefNetwork_Q_D <- function(f){
 #' @export
 read_OzRefNetwork_Q2_D <- function(f){
   # f: datafile
-  X <- read.table(f,skip=27,header=F,sep=',')
+  X <- utils::read.table(f,skip=27,header=F,sep=',')
   DF <- data.frame(year=as.numeric(substr(X[,1],1,4)),
                    month=as.numeric(substr(X[,1],6,7)),
                    day=as.numeric(substr(X[,1],9,10)),
@@ -73,7 +73,7 @@ read_OzRefNetwork_Q2_D <- function(f){
 #' @export
 read_OzRefNetwork_T_D <- function(f){
   # f: datafile
-  X <- read.table(f,skip=2,header=F,sep=',')
+  X <- utils::read.table(f,skip=2,header=F,sep=',')
   DF <- data.frame(year=as.numeric(substr(X[,1],1,4)),
                    month=as.numeric(substr(X[,1],6,7)),
                    day=as.numeric(substr(X[,1],9,10)),
@@ -99,7 +99,7 @@ read_OzRefNetwork_T_D <- function(f){
 #' @export
 read_OzRefNetwork_P_D <- function(f){
   # f: datafile
-  X <- read.table(f,skip=1,header=F)
+  X <- utils::read.table(f,skip=1,header=F)
   DF <- data.frame(year=as.numeric(substr(X[,1],1,4)),
                    month=as.numeric(substr(X[,1],5,6)),
                    day=as.numeric(substr(X[,1],7,8)),
@@ -130,7 +130,7 @@ read_OzRefNetwork_P_D <- function(f){
 #' @export
 read_OzRefNetwork_M <- function(f){
   # f: datafile
-  X <- read.table(f,skip=1,header=F)
+  X <- utils::read.table(f,skip=1,header=F)
   DF <- data.frame(year=as.numeric(substr(X[,1],1,4)),
                    month=as.numeric(substr(X[,1],5,6)),
                    value=X[,3])
@@ -159,7 +159,7 @@ read_OzRefNetwork_M <- function(f){
 #' @export
 read_tabular_M <- function(f,...){
   # f: datafile
-  X <- read.table(f,...)[,1:13]
+  X <- utils::read.table(f,...)[,1:13]
   DF <- c()
   for(i in 1:NROW(X)){
     DF <- rbind(DF,

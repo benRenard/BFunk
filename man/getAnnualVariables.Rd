@@ -18,6 +18,8 @@ getAnnualVariables(
 \item{x}{data frame, should contain at least three columns named 'month', 'year' and 'value'.
 If x has a column named 'day', it is interpreted as a daily series.}
 
+\item{hydroyear}{integer vector, hydro-year definition.}
+
 \item{variables}{character vector, requested variables.
 Available: 'mean','max','min','total','sd'.}
 
@@ -30,8 +32,6 @@ Available: 'mean','max','min','total','sd'.}
 \item{events}{integer vector, with same size as x$value, and typically
 resulting from a call to getOTevents: definition of events. This function returns
 the annual number of events, and the mean, max, min and duration of each of them.}
-
-\item{hydroYear}{integer vector, hydro-year definition.}
 }
 \value{
 A data frame with the following columns:

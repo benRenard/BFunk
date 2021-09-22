@@ -7,7 +7,7 @@
 getBBox(bbox = "World")
 }
 \arguments{
-\item{region}{character, bounding box as a geographical description.
+\item{bbox}{character, bounding box as a geographical description.
     Available:
 \enumerate{
   \item 'All','World' (Antartica removed for the latter)

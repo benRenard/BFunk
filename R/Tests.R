@@ -16,7 +16,6 @@
 #'            }
 #' @param DoDetrending, logical, only used for dep.option==LTP:
 #'        do detrending before estimating Hurst coefficient (default=TRUE as recommended in Hamed's paper)
-#' @param ... other arguments passed to function stat.
 #' @return A list with the following fields:
 #'         \enumerate{
 #'             \item  H: logical, reject (true) or do not reject (false) H0
@@ -133,7 +132,7 @@ generalMannKendall<-function(X,level=0.1,dep.option='INDE',DoDetrending=TRUE){
   else{stat=MK/sqrt(MKvar)}
   OUT$STAT=stat
   # p-val (2-sided test)
-  OUT$P=2*pnorm(-1*abs(stat),mean=0,sd=1)
+  OUT$P=2*stats::pnorm(-1*abs(stat),mean=0,sd=1)
   # decision
   OUT$H=(OUT$P<level)
   return(OUT)
@@ -204,7 +203,7 @@ getMKStat<-function(X){
     }
   }}
   stat=count.p-count.m
-  trend=median(slope.list[!is.na(slope.list)])
+  trend=stats::median(slope.list[!is.na(slope.list)])
   return(list(stat=stat,trend=trend))
 }
 
@@ -234,7 +233,7 @@ estimateHurst<-function(Z,DoDetrending=TRUE,trend=getMKStat(Z)$trend){
   if(DoDetrending) {Y=Z-trend*(1:n)} else {Y=Z}
   # Transform to normal-score - Note that ties.method="random", might affect autocorrelation! but Hamed's paper is unclear on how to treat ties at this step
   W=randomizedNormalScore(Y)
-  Max.Lkh=optimize(f=HurstLkh,interval=c(0.5,1),W,maximum=TRUE)
+  Max.Lkh=stats::optimize(f=HurstLkh,interval=c(0.5,1),W,maximum=TRUE)
   H=Max.Lkh$maximum
   return(H)
 }
@@ -255,7 +254,7 @@ randomizedNormalScore<-function(x){
   # empirical frequencies
   p=(rank(x,ties.method="random",na.last="keep"))/(1+sum(!is.na(x)))
   # Normal quantile
-  z=qnorm(p)
+  z=stats::qnorm(p)
   return(z)
 }
 
@@ -338,8 +337,8 @@ HurstLkh<-function(H,x){
   }
   mask=!is.na(x)
   m=sum(mask)
-  v0=qnorm((1:m)/(m+1))
-  g0=var(v0)
+  v0=stats::qnorm((1:m)/(m+1))
+  g0=stats::var(v0)
   L=-0.5*log(det(CnH[mask,mask]))-(t(x[mask])%*%solve(CnH[mask,mask])%*%x[mask])/(2*g0)
   return(L)
 }

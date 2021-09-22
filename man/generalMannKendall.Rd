@@ -21,8 +21,6 @@ Use NA to fill the gaps rather than removing missing values.}
 
 \item{DoDetrending, }{logical, only used for dep.option==LTP:
 do detrending before estimating Hurst coefficient (default=TRUE as recommended in Hamed's paper)}
-
-\item{...}{other arguments passed to function stat.}
 }
 \value{
 A list with the following fields:
