@@ -18,7 +18,7 @@
 #'        do detrending before estimating Hurst coefficient (default=TRUE as recommended in Hamed's paper)
 #' @return A list with the following fields:
 #'         \enumerate{
-#'             \item  H: logical, reject (true) or do not reject (false) H0
+#'             \item H: logical, reject (true) or do not reject (false) H0
 #'             \item P: p-value of the test
 #'             \item STAT: test statistics
 #'             \item TREND: trend estimate (using Sen's slope estimate)
@@ -176,6 +176,81 @@ fieldSignificance_FDR <- function(pvals,level=0.1){
     pFDR=z[indx]
   }
   return(pFDR)
+}
+
+#' Regional consistency test
+#'
+#' Test for the existence of a common trend in several series
+#'
+#' @param X numeric matrix, n*p, n=number of time steps, p=number of sites
+#' @param level numeric in (0,1), level of the test
+#' @return A list with the following fields:
+#'         \enumerate{
+#'             \item H: logical, reject (true) or do not reject (false) H0
+#'             \item P: p-value of the test
+#'             \item STAT: test statistics
+#'             \item TREND: estimate of the common trend
+#'             \item DATA: Normal-scored data used in the test
+#'         }
+#' @details
+#' Handling of missing data: incomplete years (i.e. with a missing value for at least one site)
+#' are entirely discarded. It might hence be beneficial to remove patchy sites from X.
+#' @examples
+#' set.seed(123456) # make example reproducible
+#' data(nhtemp) # 	Average Yearly Temperatures in New Haven
+#' # Create 15 noisy versions of the time series
+#' X=matrix(rep(nhtemp,15)+rnorm(length(nhtemp)*15),nrow=length(nhtemp))
+#' # put a few missing values
+#' X[10:15,1]=NA;X[20,5]=NA
+#' # Apply regional test
+#' res=regionalTrend(X)
+#' # Plot normal-scored data and common trend
+#' matplot(res$DATA$time,res$DATA[,3:NCOL(res$DATA)])
+#' lines(res$DATA$time,res$TREND*res$DATA$time)
+#' @references Renard, B., et al. (2008), Regional methods for trend detection: Assessing field significance
+#'             and regional consistency, Water Resour. Res., doi:10.1029/2007WR006268
+#' @export
+regionalTrend <- function(X,level=0.1){
+  # Create output list and initialize it
+  OUT=list(H=NA,P=NA,STAT=NA,TREND=NA,DATA=NA)
+  # Identify complete rows
+  completeRow=apply(is.na(X),1,sum)==0
+  X2=X[completeRow,]
+  n=NROW(X2);p=NCOL(X2)
+  if(n<3) {
+    warning(paste0('Number of complete rows (',n,') is too small'))
+    return(OUT)
+  }
+  # Normal-score transformation and compute correlation
+  R=apply(X2,2,randomizedNormalScore)
+  C=(t(R)%*%R)/n
+  Cdet=det(C)
+  if(Cdet==0) {
+    warning(paste0('Correlation matrix cannot be inverted. Possible reasons: number of complete rows (',
+                   n,') is too small compared with number of columns (',p,
+                   ') or some columns are perfectly correlated'))
+    return(OUT)
+  }
+  Cinv=solve(C)
+  # estimate common trend
+  tim=(1:NROW(X))[completeRow];tim=tim-mean(tim) # centered time
+  one=matrix(1,p,1)
+  num=t(one)%*%Cinv%*%t(R)%*%tim
+  denom=t(tim)%*%tim%*%t(one)%*%Cinv%*%one
+  beta=as.numeric(num/denom)
+  # Likelihoods
+  L0=rep(NA,n);L1=L0
+  for(i in 1:n){
+    L0[i]=-0.5*log(Cdet)-0.5*R[i,]%*%Cinv%*%R[i,]
+    L1[i]=-0.5*log(Cdet)-0.5*(R[i,]-beta*tim[i])%*%Cinv%*%(R[i,]-beta*tim[i])
+  }
+  # Result
+  OUT$STAT=-2*(sum(L0)-sum(L1))
+  OUT$P=1-pchisq(OUT$STAT,df=1)
+  OUT$H=(OUT$P<level)
+  OUT$TREND=beta
+  OUT$DATA=data.frame(indx=which(completeRow),time=tim,X=R)
+  return(OUT)
 }
 
 #***************************************************************************----

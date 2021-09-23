@@ -25,7 +25,7 @@ do detrending before estimating Hurst coefficient (default=TRUE as recommended i
 \value{
 A list with the following fields:
         \enumerate{
-            \item  H: logical, reject (true) or do not reject (false) H0
+            \item H: logical, reject (true) or do not reject (false) H0
             \item P: p-value of the test
             \item STAT: test statistics
             \item TREND: trend estimate (using Sen's slope estimate)
