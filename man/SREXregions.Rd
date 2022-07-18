@@ -14,6 +14,6 @@ An object of class \code{list} of length 33.
 SREXregions
 }
 \description{
-Boundaries of the SREX regions used in various IPCC reports
+Boundaries of the SREX regions used in various IPCC reports (AR5 in particular)
 }
 \keyword{datasets}
