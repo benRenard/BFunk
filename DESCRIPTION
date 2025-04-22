@@ -13,4 +13,4 @@ Imports:
     utils,
     ggplot2,
     maps
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
