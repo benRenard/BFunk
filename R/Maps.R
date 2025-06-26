@@ -80,6 +80,7 @@ getWorldMap <- function(fill='gray20',borderColor=fill,borderWidth=0.1,
                         ){
   bb <- getBBox(region)
   if(is.null(bb)) bb <- getBBox('All')
+  mlat=0.5*(bb[3]+bb[4])
 
   world = map_data("world")
   if(any(bb>180)){
@@ -91,7 +92,7 @@ getWorldMap <- function(fill='gray20',borderColor=fill,borderWidth=0.1,
   g=ggplot()
   g=g+geom_polygon(data=world,aes(long,lat,group=group),
                    fill=fill,color=borderColor,size=borderWidth)
-  g=g+coord_fixed(ratio=1,xlim=bb[1:2],ylim=bb[3:4],expand=FALSE)
+  g=g+coord_fixed(ratio=getAspectRatio(mlat),xlim=bb[1:2],ylim=bb[3:4],expand=FALSE)
   g=g+theme
   if(addFrame) g=g+theme(panel.border=element_rect(fill=NA))
   return(g)
@@ -124,4 +125,24 @@ haversine <- function(pt1,pt2,R=6371){
   d=0.5-cos(diff[2])/2+cos(p1[2]*toRad)*cos(p2[2]*toRad)*(1-cos(diff[1]))/2
   d=2*R*asin(sqrt(d))
   return(d)
+}
+
+#' Compute y/x Aspect Ratio
+#'
+#' Compute the y/x aspect ratio for a map in lon-lat, centered around a given latitude.
+#' The ratio is computed as the ratio of distances traveled with a 1 degree move equator-ward and eastward.
+#' @param lat numeric, latitude for which the ratio is sought.
+#' @param ... other arguments passed to function haversine.
+#' @return a numeric giving the y/x aspect ratio
+#' @examples
+#' getAspectRatio(0)
+#' getAspectRatio(50)
+#' getAspectRatio(-50)
+#' @export
+getAspectRatio <- function(lat,...){2
+  if(lat>=0){dlat=-1} else {dlat=1}
+  dy=haversine(c(0,lat),c(0,lat+dlat),...)
+  dx=haversine(c(0,lat),c(1,lat),...)
+  r=dy/dx
+  return(r)
 }
