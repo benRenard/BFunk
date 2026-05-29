@@ -12,6 +12,8 @@ getQRcode(url, colorBkg = "white", colorTile = "black", alpha = 1)
 \item{colorBkg}{color, background color}
 
 \item{colorTile}{color, tile color}
+
+\item{alpha}{numeric in [0,1], tile transparency}
 }
 \value{
 A ggplot

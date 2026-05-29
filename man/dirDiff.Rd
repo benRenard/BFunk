@@ -30,5 +30,15 @@ and folders that have been added, removed, sized-changed or
 os-modified in the last X hours.
 }
 \examples{
-#
+D0=tempdir()
+dir.create(file.path(D0,'D1'))
+file.create(file.path(D0,'D1','f1.txt'))
+file.create(file.path(D0,'D1','f2.txt'))
+file.create(file.path(D0,'D1','f3.txt'))
+dir.create(file.path(D0,'D2'))
+file.create(file.path(D0,'D2','f1.txt'))
+file.create(file.path(D0,'D2','f4.txt'))
+dirDiff(file.path(D0,'D1'),file.path(D0,'D2'))
+# Cleaning up: delete D1 and D2
+unlink(c(file.path(D0,'D1'),file.path(D0,'D2')))
 }

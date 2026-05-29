@@ -82,7 +82,7 @@ getWorldMap <- function(fill='gray20',borderColor=fill,borderWidth=0.1,
   if(is.null(bb)) bb <- getBBox('All')
   mlat=0.5*(bb[3]+bb[4])
 
-  world = map_data("world")
+  world = ggplot2::map_data("world")
   if(any(bb>180)){
     w2 <- world
     w2$long=w2$long+360

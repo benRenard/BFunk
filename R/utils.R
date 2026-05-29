@@ -8,6 +8,7 @@
 #' @param url character string, URL
 #' @param colorBkg color, background color
 #' @param colorTile color, tile color
+#' @param alpha numeric in [0,1], tile transparency
 #' @return A ggplot
 #' @examples
 #' getQRcode('https://globxblog.github.io/')
