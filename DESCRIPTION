@@ -16,5 +16,6 @@ Imports:
     qrcode,
     rjson,
     tidyr,
-    tidyselect
+    tidyselect,
+    TSA
 RoxygenNote: 7.3.3

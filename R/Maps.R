@@ -90,7 +90,7 @@ getWorldMap <- function(fill='gray20',borderColor=fill,borderWidth=0.1,
     world=rbind(world,w2)
   }
   g=ggplot()
-  g=g+geom_polygon(data=world,aes(long,lat,group=group),
+  g=g+geom_polygon(data=world,aes(.data$long,.data$lat,group=.data$group),
                    fill=fill,color=borderColor,size=borderWidth)
   g=g+coord_fixed(ratio=getAspectRatio(mlat),xlim=bb[1:2],ylim=bb[3:4],expand=FALSE)
   g=g+theme
